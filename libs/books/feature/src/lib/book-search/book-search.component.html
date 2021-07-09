@@ -43,8 +43,9 @@
                 (click)="addBookToReadingList(book)"
                 [disabled]="book.isAdded"
                 [attr.aria-label]="'Want to Read ' + book.title + ' book'"
+                data-testing="want-to-read-cta"
               >
-                Want to Read
+                {{ book.finished ? 'Finished' : 'Want to Read' }}
               </button>
             </div>
           </div>

@@ -42,4 +42,33 @@ describe('ToReadEffects', () => {
       httpMock.expectOne('/api/reading-list').flush([]);
     });
   });
+
+  describe('markBookAsFinish$', () => {
+    beforeEach(() => {
+      actions = new ReplaySubject();
+      actions.next(ReadingListActions.finishBook({ id: 'A', finishedDate: '2021-07-09T14:47:16.315Z' }));
+    });
+
+    it('should dispatch finishBookSuccess action on success of API', done => {
+      effects.markBookAsFinish$.subscribe(action => {
+        expect(action).toEqual(
+          ReadingListActions.finishBookSuccess()
+        );
+        done();
+      });
+
+      httpMock.expectOne('/api/reading-list/A/finished').flush([]);
+    });
+
+    it('should dispatch finishBookFailed action on failure of API', done => {
+      effects.markBookAsFinish$.subscribe(action => {
+        expect(action).toEqual(
+          ReadingListActions.finishBookFailed({ id: 'A' })
+        );
+        done();
+      });
+
+      httpMock.expectOne('/api/reading-list/A/finished').error(new ErrorEvent('api unavailable'));
+    });
+  });
 });

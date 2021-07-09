@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { ReadingListItem } from '@tmo/shared/models';
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { getReadingList, removeFromReadingList } from '@tmo/books/data-access';
+import { finishBook, getReadingList, removeFromReadingList } from '@tmo/books/data-access';
 
 @Component({
   selector: 'tmo-reading-list',
@@ -16,5 +16,9 @@ export class ReadingListComponent {
 
   removeFromReadingList(item: ReadingListItem): void {
     this.store.dispatch(removeFromReadingList({ item }));
+  }
+
+  markBookFinished(bookId: string): void {
+    this.store.dispatch(finishBook({ id: bookId, finishedDate: new Date().toISOString() }));
   }
 }

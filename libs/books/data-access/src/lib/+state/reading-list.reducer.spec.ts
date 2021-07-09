@@ -51,6 +51,24 @@ describe('Reading List Reducer', () => {
 
       expect(result.ids).toEqual(['A', 'B', 'C']);
     });
+
+    it('finishBook should set book as finished with finishDate to the state', () => {
+      const action = ReadingListActions.finishBook({ id: 'B', finishedDate: '2021-07-09T14:47:16.315Z' });
+
+      const result: State = reducer(state, action);
+
+      expect(result.entities['B'].finished).toEqual(true);
+      expect(result.entities['B'].finishedDate).toEqual('2021-07-09T14:47:16.315Z');
+    });
+
+    it('finishBookFailed should set finished as false and finishedDate undefined to the state', () => {
+      const action = ReadingListActions.finishBookFailed({ id: 'B' });
+
+      const result: State = reducer(state, action);
+
+      expect(result.entities['B'].finished).toEqual(false);
+      expect(result.entities['B'].finishedDate).toBeUndefined();
+    });
   });
 
   describe('unknown action', () => {
