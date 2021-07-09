@@ -1,4 +1,5 @@
 import { Book, ReadingListItem } from '@tmo/shared/models';
+import { of } from 'rxjs';
 
 export function createBook(id: string): Book {
   return {
@@ -21,3 +22,11 @@ export function createReadingListItem(bookId: string): ReadingListItem {
     publishedDate: new Date(2020, 0, 1).toISOString()
   };
 }
+
+export class MatSnackBarMock {
+  open() {
+    return {
+      onAction: () => of()
+    };
+  }
+};

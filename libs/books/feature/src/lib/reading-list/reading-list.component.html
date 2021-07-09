@@ -1,6 +1,6 @@
 <div *ngIf="(readingList$ | async) as readingList">
   <ng-container *ngIf="readingList.length; else empty">
-    <div class="reading-list-item" *ngFor="let book of readingList">
+    <div class="reading-list-item" data-testing="reading-list" *ngFor="let book of readingList">
       <div>
         <img class="reading-list-item--cover" [src]="book.coverUrl" alt="" />
       </div>
@@ -16,6 +16,7 @@
           color="warn"
           [attr.aria-label]="'Remove ' + book.title + ' from reading list'"
           (click)="removeFromReadingList(book)"
+          data-testing="remove-from-reading-list-cta"
         >
           <mat-icon>remove_circle</mat-icon>
         </button>

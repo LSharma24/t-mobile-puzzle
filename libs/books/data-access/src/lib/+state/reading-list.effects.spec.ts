@@ -4,7 +4,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { HttpTestingController } from '@angular/common/http/testing';
 
-import { SharedTestingModule } from '@tmo/shared/testing';
+import { createBook, createReadingListItem, SharedTestingModule } from '@tmo/shared/testing';
 import { ReadingListEffects } from './reading-list.effects';
 import * as ReadingListActions from './reading-list.actions';
 
@@ -40,6 +40,40 @@ describe('ToReadEffects', () => {
       });
 
       httpMock.expectOne('/api/reading-list').flush([]);
+    });
+  });
+
+  describe('addBook$', () => {
+    it('should dispatch confirmedAddToReadingList action', done => {
+      actions = new ReplaySubject();
+      const book = createBook('A');
+      actions.next(ReadingListActions.addToReadingList({ book, showSnackBar: true }));
+
+      effects.addBook$.subscribe(action => {
+        expect(action).toEqual(
+          ReadingListActions.confirmedAddToReadingList({ book, showSnackBar: true })
+        );
+        done();
+      });
+
+      httpMock.expectOne('/api/reading-list').flush([]);
+    });
+  });
+
+  describe('removeBook$', () => {
+    it('should dispatch confirmedRemoveFromReadingList action', done => {
+      actions = new ReplaySubject();
+      const item = createReadingListItem('A');
+      actions.next(ReadingListActions.removeFromReadingList({ item, showSnackBar: true }));
+
+      effects.removeBook$.subscribe(action => {
+        expect(action).toEqual(
+          ReadingListActions.confirmedRemoveFromReadingList({ item, showSnackBar: true })
+        );
+        done();
+      });
+
+      httpMock.expectOne(`/api/reading-list/${item.bookId}`).flush([]);
     });
   });
 });
