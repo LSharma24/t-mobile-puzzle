@@ -68,5 +68,21 @@ form {
   justify-content: center;
   min-height: 50vh;
   font-size: 1.5rem;
-  color: $gray40;
+  color: $black;
+}
+
+.example-button {
+  color: $pink-dark;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0px;
+
+  &:hover {
+    color: $pink-very-dark;
+  }
+}
+
+.error-message {
+  color: $red;
 }
